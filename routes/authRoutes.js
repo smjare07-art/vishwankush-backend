@@ -9,6 +9,10 @@ const {
   verifyOTP,
   register,
   login,
+  sendForgotOTP,
+  verifyForgotOTP,
+  resetPassword,
+
 } = require(
   "../controllers/authController"
 );
@@ -31,6 +35,20 @@ router.post(
 router.post(
   "/login",
   login
+);
+router.post(
+  "/forgot-password/send-otp",
+  sendForgotOTP
+);
+
+router.post(
+  "/forgot-password/verify-otp",
+  verifyForgotOTP
+);
+
+router.post(
+  "/reset-password",
+  resetPassword
 );
 
 module.exports = router;
