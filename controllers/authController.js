@@ -3,8 +3,7 @@ const OTP = require("../models/OTP");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-const transporter = require("../utils/sendEmail");
+const axios = require("axios");
 
 /* ==========================
    CREATE DEFAULT DOCTOR
@@ -59,27 +58,20 @@ exports.sendOTP = async (
   res
 ) => {
   try {
-    const { email } =
-      req.body;
+    const { email } = req.body;
 
     if (!email) {
       return res
         .status(400)
         .json({
-          message:
-            "Email Required",
+          message: "Email Required",
         });
     }
-await transporter.verify();
 
-console.log(
-  "SMTP Connected Successfully"
-);
     const otp =
       Math.floor(
         1000 +
-          Math.random() *
-            9000
+          Math.random() * 9000
       ).toString();
 
     await OTP.deleteMany({
@@ -94,189 +86,105 @@ console.log(
         5 * 60 * 1000,
     });
 
-    await transporter.sendMail({
-      from:
-        process.env.BREVO_USER,
+    await axios.post(
+      "https://api.brevo.com/v3/smtp/email",
+      {
+        sender: {
+          name:
+            "Shri Vishwankush Ayurvedic Clinic",
+          email:
+            "shrivishwankushayurvedicclinic@gmail.com",
+        },
 
-      to: email,
+        to: [
+          {
+            email,
+          },
+        ],
 
-      subject:
-        "Email Verification OTP",
+        subject:
+          "Email Verification OTP",
 
-      html: `
+        htmlContent: `
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-</head>
+<body style="font-family:Arial;background:#F8F5EC;padding:20px">
 
-<body style="
-margin:0;
-padding:0;
-background:#F8F5EC;
-font-family:Arial,sans-serif;
+<div style="
+max-width:600px;
+margin:auto;
+background:#fff;
+border-radius:15px;
+padding:30px;
+text-align:center;
 ">
 
-<table width="100%" cellpadding="0" cellspacing="0">
-<tr>
-<td align="center">
-
-<table
-width="600"
-style="
-background:#ffffff;
-margin-top:20px;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 4px 20px rgba(0,0,0,0.08);
-"
->
-
-<tr>
-<td
-style="
-background:#2E7D32;
-padding:25px;
-text-align:center;
-"
->
-
-<img
-src="https://YOUR_LOGO_LINK_HERE"
-width="90"
-/>
-
-<h1
-style="
-color:white;
-margin-top:10px;
-font-size:24px;
-"
->
+<h2 style="color:#8B0000">
 श्री विश्वांकुश आयुर्वेदीय क्लिनिक
-</h1>
-
-</td>
-</tr>
-
-<tr>
-<td style="padding:40px">
-
-<h2
-style="
-color:#8B0000;
-text-align:center;
-margin-bottom:10px;
-"
->
-Email Verification
 </h2>
 
-<p
-style="
-text-align:center;
-color:#555;
-font-size:15px;
-"
->
+<p>
 Ayurveda Rooted Healing With Modern Care
 </p>
 
-<div
-style="
-background:#F8F5EC;
+<div style="
+padding:20px;
+margin-top:20px;
 border:2px dashed #2E7D32;
-border-radius:15px;
-padding:25px;
-margin-top:25px;
-text-align:center;
-"
->
+border-radius:12px;
+">
 
-<p
-style="
-font-size:16px;
-color:#444;
-margin-bottom:10px;
-"
->
-Your Verification OTP
-</p>
+<p>Your Verification OTP</p>
 
-<h1
-style="
-font-size:42px;
-letter-spacing:10px;
+<h1 style="
+font-size:40px;
 color:#2E7D32;
-margin:0;
-"
->
+letter-spacing:8px;
+">
 ${otp}
 </h1>
 
 </div>
 
-<p
-style="
-text-align:center;
-margin-top:20px;
-color:#777;
-"
->
+<p>
 OTP is valid for
 <b>5 Minutes</b>
 </p>
 
-<p
-style="
-margin-top:30px;
-color:#555;
-font-size:14px;
-"
->
-If you did not request this OTP,
-please ignore this email.
-</p>
-
-</td>
-</tr>
-
-<tr>
-<td
-style="
-background:#F8F5EC;
-padding:20px;
-text-align:center;
-font-size:13px;
-color:#777;
-"
->
-Powered By Vishwankush Healthcare
-</td>
-</tr>
-
-</table>
-
-</td>
-</tr>
-</table>
+</div>
 
 </body>
 </html>
 `,
-    });
+      },
+      {
+        headers: {
+          "api-key":
+            process.env
+              .BREVO_API_KEY,
 
-    res.json({
+          "Content-Type":
+            "application/json",
+        },
+      }
+    );
+
+    return res.json({
       message:
         "OTP Sent Successfully",
     });
   } catch (error) {
-    console.log(error);
+    console.log(
+      error.response?.data ||
+        error.message
+    );
 
-    res.status(500).json({
-      message:
-        "Failed To Send OTP",
-    });
+    return res
+      .status(500)
+      .json({
+        message:
+          "Failed To Send OTP",
+      });
   }
 };
 
