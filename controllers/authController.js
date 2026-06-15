@@ -70,7 +70,11 @@ exports.sendOTP = async (
             "Email Required",
         });
     }
+await transporter.verify();
 
+console.log(
+  "SMTP Connected Successfully"
+);
     const otp =
       Math.floor(
         1000 +
