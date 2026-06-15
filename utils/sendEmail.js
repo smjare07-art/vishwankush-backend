@@ -1,3 +1,5 @@
+const nodemailer = require("nodemailer");
+
 const transporter =
   nodemailer.createTransport({
     host: "smtp-relay.brevo.com",
@@ -9,3 +11,5 @@ const transporter =
       pass: process.env.BREVO_PASS,
     },
   });
+
+module.exports = transporter; 
