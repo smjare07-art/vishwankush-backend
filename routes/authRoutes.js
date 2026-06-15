@@ -5,15 +5,27 @@ const router =
   express.Router();
 
 const {
-  registerPatient,
+  sendOTP,
+  verifyOTP,
+  register,
   login,
 } = require(
   "../controllers/authController"
 );
 
 router.post(
+  "/send-otp",
+  sendOTP
+);
+
+router.post(
+  "/verify-otp",
+  verifyOTP
+);
+
+router.post(
   "/register",
-  registerPatient
+  register
 );
 
 router.post(

@@ -15,7 +15,8 @@ const authRoutes =
 const app = express();
 
 connectDB();
-
+const User = require("./models/User");
+const bcrypt = require("bcryptjs");
 app.use(cors());
 
 app.use(express.json());
@@ -27,7 +28,7 @@ app.use(
 
 app.get("/", (req, res) => {
   res.send(
-    "Shree Vishwankush Ayurvedic Clinic API Running"
+    "Shri Vishwankush Ayurvedic Clinic API Running"
   );
 });
 
