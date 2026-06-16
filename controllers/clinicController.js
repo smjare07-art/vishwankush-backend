@@ -36,3 +36,21 @@ exports.getClinics =
       });
     }
   };
+  exports.deleteClinic =
+  async (req, res) => {
+    try {
+      await Clinic.findByIdAndDelete(
+        req.params.id
+      );
+
+      res.json({
+        message:
+          "Clinic Deleted Successfully",
+      });
+    } catch (error) {
+      res.status(500).json({
+        message:
+          error.message,
+      });
+    }
+  };

@@ -7,6 +7,7 @@ const router =
 const {
   addClinic,
   getClinics,
+  deleteClinic,
 } = require(
   "../controllers/clinicController"
 );
@@ -20,5 +21,8 @@ router.get(
   "/all",
   getClinics
 );
-
+router.delete(
+  "/:id",
+  deleteClinic
+);
 module.exports = router;
