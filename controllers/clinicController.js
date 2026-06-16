@@ -54,3 +54,25 @@ exports.getClinics =
       });
     }
   };
+  exports.updateClinic =
+  async (req, res) => {
+    try {
+      const clinic =
+        await Clinic.findByIdAndUpdate(
+          req.params.id,
+          req.body,
+          { new: true }
+        );
+
+      res.json({
+        message:
+          "Clinic Updated Successfully",
+        clinic,
+      });
+    } catch (error) {
+      res.status(500).json({
+        message:
+          error.message,
+      });
+    }
+  };
