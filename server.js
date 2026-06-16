@@ -51,6 +51,14 @@ app.get("/", (req, res) => {
     "Shri Vishwankush Ayurvedic Clinic API Running"
   );
 });
+const appointmentRoutes =
+require(
+"./routes/appointmentRoutes"
+);
+app.use(
+  "/api/appointments",
+  appointmentRoutes
+);
 
 const PORT =
   process.env.PORT || 5000;
