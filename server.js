@@ -32,6 +32,14 @@ app.use(
   "/api/clinic",
   clinicRoutes
 );
+const doctorProfileRoutes =
+  require(
+    "./routes/doctorProfileRoutes"
+  );
+  app.use(
+  "/api/doctor",
+  doctorProfileRoutes
+);
 app.get("/", (req, res) => {
   res.send(
     "Shri Vishwankush Ayurvedic Clinic API Running"
