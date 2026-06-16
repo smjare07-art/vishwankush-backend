@@ -40,6 +40,13 @@ const doctorProfileRoutes =
   "/api/doctor",
   doctorProfileRoutes
 );
+const uploadRoutes =
+require("./routes/uploadRoutes");
+
+app.use(
+  "/api/upload",
+  uploadRoutes
+);
 app.get("/", (req, res) => {
   res.send(
     "Shri Vishwankush Ayurvedic Clinic API Running"

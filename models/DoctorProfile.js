@@ -50,7 +50,9 @@ const doctorProfileSchema =
       youtube: String,
 
       linkedin: String,
+      
     },
+    
     {
       timestamps: true,
     }
