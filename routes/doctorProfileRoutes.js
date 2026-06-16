@@ -7,6 +7,7 @@ const router =
 const {
   getProfile,
   updateProfile,
+    createDefaultProfileAPI,
 } = require(
   "../controllers/doctorProfileController"
 );
@@ -20,5 +21,8 @@ router.put(
   "/profile/:id",
   updateProfile
 );
-
+router.get(
+  "/create-default",
+  createDefaultProfileAPI
+);
 module.exports = router;

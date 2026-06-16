@@ -110,3 +110,44 @@ exports.createDefaultProfile =
       });
     }
   };
+  exports.createDefaultProfileAPI =
+  async (req, res) => {
+    try {
+      const exists =
+        await DoctorProfile.findOne({
+          email:
+            "shrivishwankushayurvedicclinic@gmail.com",
+        });
+
+      if (!exists) {
+        await DoctorProfile.create({
+          fullName: "Dr. Vishwankush",
+          profilePhoto:
+            "https://i.pravatar.cc/300",
+          gender: "Male",
+          mobile: "9999999999",
+          email:
+            "shrivishwankushayurvedicclinic@gmail.com",
+          qualification: "BAMS",
+          specialization:
+            "Ayurvedic Physician",
+          experienceYears: "12",
+          registrationNumber:
+            "AYU-2026-001",
+          medicalCouncil:
+            "Maharashtra Medical Council",
+          aboutDoctor:
+            "Experienced Ayurvedic doctor dedicated to holistic healing and preventive healthcare.",
+        });
+      }
+
+      res.json({
+        message:
+          "Default Profile Created",
+      });
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      });
+    }
+  };
