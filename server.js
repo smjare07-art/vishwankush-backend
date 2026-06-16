@@ -41,10 +41,9 @@ const doctorProfileRoutes =
   doctorProfileRoutes
 );
 const uploadRoutes =
-require("./routes/uploadRoutes");
-
+  require("./routes/uploadRoutes");
 app.use(
-  "/api/upload",
+  "/api",
   uploadRoutes
 );
 app.get("/", (req, res) => {

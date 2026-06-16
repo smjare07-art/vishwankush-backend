@@ -7,7 +7,7 @@ exports.uploadImage =
 
       const result =
         await cloudinary.uploader.upload(
-          req.body.image,
+          req.file.path,
           {
             folder:
               "vishwankush-doctors",
