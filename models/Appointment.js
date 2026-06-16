@@ -22,6 +22,10 @@ new mongoose.Schema(
     type: Date,
     required: true,
   },
+  slot: {
+  type: String,
+  required: true,
+},
 
   note: {
     type: String,

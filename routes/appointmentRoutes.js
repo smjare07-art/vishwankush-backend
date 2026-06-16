@@ -4,19 +4,21 @@ require("express");
 const router =
 express.Router();
 
-const appointmentController =
-require(
+const {
+  bookAppointment,
+  getAppointments,
+} = require(
   "../controllers/appointmentController"
 );
 
 router.post(
   "/book",
-  appointmentController.bookAppointment
+  bookAppointment
 );
 
 router.get(
   "/all",
-  appointmentController.getAppointments
+  getAppointments
 );
 
 module.exports =

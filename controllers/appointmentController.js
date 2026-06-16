@@ -5,6 +5,9 @@ require("../models/Appointment");
 BOOK APPOINTMENT
 ===================== */
 
+const Appointment =
+require("../models/Appointment");
+
 exports.bookAppointment =
 async (req, res) => {
 
@@ -14,6 +17,7 @@ async (req, res) => {
       patientId,
       clinicId,
       appointmentDate,
+      slot,
       note,
     } = req.body;
 
@@ -22,6 +26,7 @@ async (req, res) => {
         patientId,
         clinicId,
         appointmentDate,
+        slot,
         note,
       });
 
