@@ -5,8 +5,7 @@ require("../models/Appointment");
 BOOK APPOINTMENT
 ===================== */
 
-const Appointment =
-require("../models/Appointment");
+
 
 exports.bookAppointment =
 async (req, res) => {
