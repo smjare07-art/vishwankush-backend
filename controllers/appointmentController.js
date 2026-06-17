@@ -50,39 +50,25 @@ async (req, res) => {
 DOCTOR APPOINTMENTS
 ===================== */
 
-exports.getAppointments =
+exports.getPendingAppointments =
 async (req, res) => {
 
   try {
 
-    const appointments =
-      await Appointment.find()
+    const count =
+      await Appointment.countDocuments({
+        status: "pending",
+      });
 
-        .populate(
-          "patientId",
-          "fullName email mobile"
-        )
-
-        .populate(
-          "clinicId",
-          "clinicName city address"
-        )
-
-        .sort({
-          appointmentDate: 1,
-        });
-
-    res.json(
-      appointments
-    );
+    res.json({
+      count,
+    });
 
   } catch (error) {
 
     res.status(500).json({
-      message:
-        error.message,
+      message: error.message,
     });
 
   }
-
 };

@@ -17,8 +17,8 @@ router.post(
 );
 
 router.get(
-  "/all",
-  getAppointments
+  "/pending-count",
+  appointmentController.getPendingAppointments
 );
 
 module.exports =
