@@ -7,6 +7,7 @@ express.Router();
 const {
   bookAppointment,
   getAppointments,
+  getPendingAppointments,
 } = require(
   "../controllers/appointmentController"
 );
@@ -17,8 +18,13 @@ router.post(
 );
 
 router.get(
+  "/all",
+  getAppointments
+);
+
+router.get(
   "/pending-count",
-  appointmentController.getPendingAppointments
+  getPendingAppointments
 );
 
 module.exports =
