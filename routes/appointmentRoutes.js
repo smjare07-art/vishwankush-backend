@@ -8,6 +8,7 @@ const {
   bookAppointment,
   getAppointments,
   getPendingAppointments,
+    updateAppointmentStatus,
 } = require(
   "../controllers/appointmentController"
 );
@@ -26,6 +27,9 @@ router.get(
   "/pending-count",
   getPendingAppointments
 );
-
+router.put(
+  "/status/:id",
+  updateAppointmentStatus
+);
 module.exports =
 router;

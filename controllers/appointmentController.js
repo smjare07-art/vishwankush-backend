@@ -104,3 +104,39 @@ async (req, res) => {
 
   }
 };
+exports.updateAppointmentStatus =
+async (req, res) => {
+
+  try {
+
+    const { id } =
+      req.params;
+
+    const { status } =
+      req.body;
+
+    const appointment =
+      await Appointment.findByIdAndUpdate(
+        id,
+        {
+          status,
+        },
+        {
+          new: true,
+        }
+      );
+
+    res.json(
+      appointment
+    );
+
+  } catch (error) {
+
+    res.status(500).json({
+      message:
+        error.message,
+    });
+
+  }
+
+};
