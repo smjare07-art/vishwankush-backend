@@ -140,3 +140,37 @@ async (req, res) => {
   }
 
 };
+exports.getPatientAppointments =
+async (req, res) => {
+
+  try {
+
+    const { patientId } =
+      req.params;
+
+    const appointments =
+      await Appointment.find({
+        patientId,
+      })
+      .populate(
+        "clinicId",
+        "clinicName address city"
+      )
+      .sort({
+        appointmentDate: -1,
+      });
+
+    res.json(
+      appointments
+    );
+
+  } catch (error) {
+
+    res.status(500).json({
+      message:
+        error.message,
+    });
+
+  }
+
+};

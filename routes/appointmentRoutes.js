@@ -9,6 +9,7 @@ const {
   getAppointments,
   getPendingAppointments,
     updateAppointmentStatus,
+    getPatientAppointments,
 } = require(
   "../controllers/appointmentController"
 );
@@ -30,6 +31,10 @@ router.get(
 router.put(
   "/status/:id",
   updateAppointmentStatus
+);
+router.get(
+  "/patient/:patientId",
+  getPatientAppointments
 );
 module.exports =
 router;
