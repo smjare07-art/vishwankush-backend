@@ -248,71 +248,74 @@ exports.verifyOTP =
 ========================== */
 
 exports.register =
-  async (req, res) => {
-    try {
-    const user =
-  await User.create({
-    fullName,
-    mobile,
-    email,
-    password: hashedPassword,
-    role: "patient",
-    isEmailVerified: true,
-    profileCompleted: false,
-  });
+async (req, res) => {
 
-      const existingUser =
-        await User.findOne({
-          email,
-        });
+  try {
 
-      if (existingUser) {
-        return res
-          .status(400)
-          .json({
-            message:
-              "User Already Exists",
-          });
-      }
+    const {
+      fullName,
+      mobile,
+      email,
+      password,
+    } = req.body;
 
-      const hashedPassword =
-        await bcrypt.hash(
-          password,
-          10
-        );
-
-      const user =
-        await User.create({
-          fullName,
-          mobile,
-          email,
-          password:
-            hashedPassword,
-          role: "patient",
-          isEmailVerified:
-            true,
-        });
-
-      res.status(201).json({
-        message:
-          "Registration Successful",
-
-        user: {
-          id: user._id,
-          fullName:
-            user.fullName,
-          email:
-            user.email,
-          role: user.role,
-        },
+    const existingUser =
+      await User.findOne({
+        email,
       });
-    } catch (error) {
-      res.status(500).json({
+
+    if (existingUser) {
+      return res.status(400).json({
         message:
-          error.message,
+          "User Already Exists",
       });
     }
-  };
+
+    const hashedPassword =
+      await bcrypt.hash(
+        password,
+        10
+      );
+
+    const user =
+      await User.create({
+        fullName,
+        mobile,
+        email,
+        password:
+          hashedPassword,
+        role: "patient",
+        isEmailVerified: true,
+        profileCompleted: false,
+      });
+
+    res.status(201).json({
+      message:
+        "Registration Successful",
+
+      user: {
+        id: user._id,
+        fullName:
+          user.fullName,
+        email:
+          user.email,
+        role:
+          user.role,
+        profileCompleted:
+          user.profileCompleted,
+      },
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message:
+        error.message,
+    });
+
+  }
+
+};
 
 /* ==========================
    LOGIN
