@@ -250,12 +250,16 @@ exports.verifyOTP =
 exports.register =
   async (req, res) => {
     try {
-      const {
-        fullName,
-        mobile,
-        email,
-        password,
-      } = req.body;
+    const user =
+  await User.create({
+    fullName,
+    mobile,
+    email,
+    password: hashedPassword,
+    role: "patient",
+    isEmailVerified: true,
+    profileCompleted: false,
+  });
 
       const existingUser =
         await User.findOne({
@@ -367,21 +371,19 @@ exports.login = async (
         }
       );
 
-    res.json({
-      message:
-        "Login Successful",
+   res.json({
+  message: "Login Successful",
+  token,
 
-      token,
-
-      user: {
-        id: user._id,
-        fullName:
-          user.fullName,
-        email:
-          user.email,
-        role: user.role,
-      },
-    });
+  user: {
+    id: user._id,
+    fullName: user.fullName,
+    email: user.email,
+    role: user.role,
+    profileCompleted:
+      user.profileCompleted,
+  },
+});
   } catch (error) {
     res.status(500).json({
       message:
